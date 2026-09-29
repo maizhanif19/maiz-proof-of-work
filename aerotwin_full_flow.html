@@ -1,0 +1,173 @@
+
+<h2 class="sr-only">AeroTwin project complete user flow, feature map, and gap analysis across all five pages</h2>
+<style>
+.sec{margin-bottom:2rem}
+.sec-title{font-size:11px;font-weight:500;letter-spacing:2px;text-transform:uppercase;color:var(--color-text-secondary);margin-bottom:12px;padding-bottom:6px;border-bottom:0.5px solid var(--color-border-tertiary)}
+.card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:14px 16px;margin-bottom:8px}
+.card-title{font-size:14px;font-weight:500;color:var(--color-text-primary);margin-bottom:6px;display:flex;align-items:center;gap:8px}
+.card-body{font-size:12px;color:var(--color-text-secondary);line-height:1.6}
+.badge{display:inline-block;font-size:10px;font-weight:500;padding:2px 8px;border-radius:var(--border-radius-md);margin-left:auto}
+.b-done{background:var(--color-background-success);color:var(--color-text-success)}
+.b-gap{background:var(--color-background-danger);color:var(--color-text-danger)}
+.b-partial{background:var(--color-background-warning);color:var(--color-text-warning)}
+.flow-row{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px;margin-bottom:1.5rem}
+.flow-box{background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);padding:10px 12px;text-align:center}
+.flow-num{font-size:20px;font-weight:500;color:var(--color-text-primary);margin-bottom:2px}
+.flow-label{font-size:11px;color:var(--color-text-secondary)}
+.gap-row{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.tag{font-size:10px;padding:2px 6px;border-radius:4px;font-weight:500}
+.t-missing{background:var(--color-background-danger);color:var(--color-text-danger)}
+.t-partial{background:var(--color-background-warning);color:var(--color-text-warning)}
+.t-done{background:var(--color-background-success);color:var(--color-text-success)}
+.feature{display:flex;align-items:flex-start;gap:8px;padding:6px 0;border-bottom:0.5px solid var(--color-border-tertiary);font-size:12px;color:var(--color-text-primary)}
+.feature:last-child{border-bottom:none}
+.dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;margin-top:5px}
+.dot-done{background:var(--color-text-success)}
+.dot-gap{background:var(--color-text-danger)}
+.dot-partial{background:var(--color-text-warning)}
+</style>
+
+<div class="sec">
+  <div class="sec-title">Current user flow — 5 pages</div>
+  <div class="flow-row">
+    <div class="flow-box"><div class="flow-num">1</div><div class="flow-label">Live Dashboard</div></div>
+    <div class="flow-box"><div class="flow-num">2</div><div class="flow-label">Pakistan Fleet</div></div>
+    <div class="flow-box"><div class="flow-num">3</div><div class="flow-label">Mission Logs</div></div>
+    <div class="flow-box"><div class="flow-num">4</div><div class="flow-label">Maintenance Portal</div></div>
+    <div class="flow-box"><div class="flow-num">5</div><div class="flow-label">Flight Simulator</div></div>
+  </div>
+</div>
+
+<div class="sec">
+  <div class="sec-title">Page 1 — Live Dashboard</div>
+  <div class="card">
+    <div class="card-title">What a user can do <span class="badge b-done">working</span></div>
+    <div class="card-body">
+      Select any aircraft currently flying over Asian airspace from OpenSky. View live altitude, airspeed, RUL prediction, health score, SHAP feature attribution chart, estimated CO₂ and fuel burn, and a live map with flight path polyline. Each metric updates every 15 seconds.
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-title">What is missing <span class="badge b-gap">gaps</span></div>
+    <div class="card-body">
+      <div class="feature"><div class="dot dot-gap"></div>No airline/aircraft info shown — just raw callsigns like A6GBA with no context</div>
+      <div class="feature"><div class="dot dot-gap"></div>No alert/warning system — if anomaly_flag fires there is no visual indicator to the user</div>
+      <div class="feature"><div class="dot dot-gap"></div>No refresh button — user has to know Streamlit auto-refreshes every 15s</div>
+      <div class="feature"><div class="dot dot-gap"></div>No historical comparison — can't see if this aircraft is worse than last week</div>
+    </div>
+  </div>
+</div>
+
+<div class="sec">
+  <div class="sec-title">Page 2 — Pakistan Fleet</div>
+  <div class="card">
+    <div class="card-title">What a user can do <span class="badge b-done">working</span></div>
+    <div class="card-body">
+      Select airline (PIA/AirBlue/AirSial/FlyJinnah) then specific aircraft. View live position (GPS or estimated from route), RUL, health score, SHAP chart, fuel/CO₂ estimates, real weather for nearest airport, aircraft info panel, full airline fleet status table, and maintenance advisory if health is critical.
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-title">What is missing <span class="badge b-gap">gaps</span></div>
+    <div class="card-body">
+      <div class="feature"><div class="dot dot-gap"></div>RUL shows 45.2 for most aircraft — LSTM only has 1 telemetry record per plane, not enough for meaningful inference</div>
+      <div class="feature"><div class="dot dot-gap"></div>Airborne/Grounded badge in top right is hardcoded — not reading from fleet_status table yet</div>
+      <div class="feature"><div class="dot dot-gap"></div>No trend chart — can't see how health score changed over past 7 days for this aircraft</div>
+      <div class="feature"><div class="dot dot-gap"></div>AviationStack saving 0 flights recently — need to check API key usage and rate limit</div>
+      <div class="feature"><div class="dot dot-partial"></div>Estimated position notice shows but doesn't say which route it's estimated from</div>
+    </div>
+  </div>
+</div>
+
+<div class="sec">
+  <div class="sec-title">Page 3 — Mission Logs</div>
+  <div class="card">
+    <div class="card-title">What a user can do <span class="badge b-partial">partial</span></div>
+    <div class="card-body">
+      Select a fleet aircraft and view its completed flight history — tail number, origin, destination, fuel consumed, CO₂, health score at landing. Health trend chart. CSV export button. Force-insert test record button for demo.
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-title">What is missing <span class="badge b-gap">gaps</span></div>
+    <div class="card-body">
+      <div class="feature"><div class="dot dot-gap"></div>Most aircraft show 0 flights — absence detection is firing but flight_history still not populating reliably</div>
+      <div class="feature"><div class="dot dot-gap"></div>Origin/Destination shows "Unknown" for existing rows — new rows will have real IATA codes going forward</div>
+      <div class="feature"><div class="dot dot-gap"></div>No per-flight detail view — can't click a flight to see detailed telemetry from that specific flight</div>
+      <div class="feature"><div class="dot dot-gap"></div>No pagination — if 100+ flights logged, table will be unreadable</div>
+    </div>
+  </div>
+</div>
+
+<div class="sec">
+  <div class="sec-title">Page 4 — Maintenance Portal</div>
+  <div class="card">
+    <div class="card-title">What a user can do <span class="badge b-done">working</span></div>
+    <div class="card-body">
+      Select aircraft, view current health/risk/RUL. Select a component (Engine 1/2, APU, Landing Gear, Avionics, Windshield, Fuel System). See last maintenance date, type, location. Log new maintenance with type, location, notes. On submit health resets to 100% instantly. Full maintenance history table shown below.
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-title">What is missing <span class="badge b-gap">gaps</span></div>
+    <div class="card-body">
+      <div class="feature"><div class="dot dot-gap"></div>No per-component health degradation — all components show same health, not individual scores</div>
+      <div class="feature"><div class="dot dot-gap"></div>No maintenance schedule prediction — system doesn't tell you when next maintenance is due</div>
+      <div class="feature"><div class="dot dot-gap"></div>No technician authentication — anyone can log maintenance with no credentials</div>
+      <div class="feature"><div class="dot dot-gap"></div>No maintenance cost tracking — industry systems always track labour hours and parts cost</div>
+      <div class="feature"><div class="dot dot-partial"></div>Health resets to 100% immediately — should degrade gradually over subsequent flights</div>
+    </div>
+  </div>
+</div>
+
+<div class="sec">
+  <div class="sec-title">Page 5 — Flight Simulator</div>
+  <div class="card">
+    <div class="card-title">What a user can do <span class="badge b-done">working</span></div>
+    <div class="card-body">
+      Select aircraft, set departure/arrival airports (12 options including international), aircraft age, cargo weight, weather conditions. Run simulation to get predicted fuel, CO₂, health impact, flight distance, flight time, next maintenance interval, and risk flags.
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-title">What is missing <span class="badge b-gap">gaps</span></div>
+    <div class="card-body">
+      <div class="feature"><div class="dot dot-gap"></div>No comparison mode — can't simulate same route with 2 different aircraft to compare efficiency</div>
+      <div class="feature"><div class="dot dot-gap"></div>Fuel calculation is a formula, not ML-based — not using the LSTM model for prediction</div>
+      <div class="feature"><div class="dot dot-gap"></div>No save/export — can't save simulation results for reporting</div>
+    </div>
+  </div>
+</div>
+
+<div class="sec">
+  <div class="sec-title">Critical gaps for FYP jury</div>
+  <div class="gap-row">
+    <div class="card">
+      <div class="card-title">Data pipeline reliability</div>
+      <div class="card-body">
+        <div class="feature"><div class="dot dot-gap"></div>AviationStack saving 0 flights — API key may be exhausted (100 req/month)</div>
+        <div class="feature"><div class="dot dot-gap"></div>flight_history not auto-populating — absence detection needs more testing cycles</div>
+        <div class="feature"><div class="dot dot-gap"></div>Rate limit manager not built yet — no protection against API exhaustion</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">ML model quality</div>
+      <div class="card-body">
+        <div class="feature"><div class="dot dot-gap"></div>LSTM shows 45.2 for all aircraft — needs 30 rows per aircraft for proper inference</div>
+        <div class="feature"><div class="dot dot-gap"></div>SHAP values are approximated math, not real TreeExplainer output</div>
+        <div class="feature"><div class="dot dot-gap"></div>sklearn version warning on every startup — could fail silently</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">Missing for industry grade</div>
+      <div class="card-body">
+        <div class="feature"><div class="dot dot-gap"></div>No user authentication — any user can access everything</div>
+        <div class="feature"><div class="dot dot-gap"></div>No alert notifications — no email/SMS when aircraft health drops critically</div>
+        <div class="feature"><div class="dot dot-gap"></div>No fleet overview page — can't see all 44 aircraft health at a glance</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">Demo readiness</div>
+      <div class="card-body">
+        <div class="feature"><div class="dot dot-partial"></div>Most fleet aircraft show no live data — need seeded realistic telemetry for demo</div>
+        <div class="feature"><div class="dot dot-partial"></div>Weather working but takes 5 min to first appear</div>
+        <div class="feature"><div class="dot dot-done"></div>Maintenance portal fully functional for demo</div>
+      </div>
+    </div>
+  </div>
+</div>
